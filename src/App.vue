@@ -40,7 +40,7 @@
           </a>
       </nav>
 
-        <small class="last-updated">Dernière mise à jour : Le 16 Octobre 2024</small>
+        <small class="last-updated">Dernière mise à jour : Le 29 Octobre 2024</small>
       </aside>
     </footer>
   </div>
