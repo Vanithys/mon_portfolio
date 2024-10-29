@@ -1,85 +1,165 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div id="app">
+    <header v-if="!isNotFoundPage">
+      <HeaderSection />
+    </header>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <router-view v-if="isNotFoundPage" />
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+    <main v-if="!isNotFoundPage">
+      <section>
+        <QuoteSection />
+      </section>
+      <section>
+        <FormationSection />
+      </section>
+      <section>
+        <ProjectSection />
+      </section>
+      <section>
+        <ContactSection />
+      </section>
+    </main>
+
+    <footer v-if="!isNotFoundPage" class="footer">
+      <aside class="footer-content">
+        <small>Copyright © 2024 <span class="brand-name">Vanithys</span></small>
+        
+        <nav class="social-icons">
+          <a href="https://www.facebook.com" target="_blank">
+            <img src="@/assets/facebook.png" alt="Logo de Facebook, un carré bleu avec la lettre F en blanc à l'intérieur.">
+          </a>
+          <a href="https://www.instagram.com/" target="_blank">
+            <img src="@/assets/instagram.png" alt="Logo d'Instagram, un carré rose en dégradé avec le logo d'un appareil photo à l'intérieur.">
+          </a>
+          <a href="https://www.linkedin.com/" target="_blank">
+            <img src="@/assets/linkedin.png" alt="Logo de Linkedin, un carré bleu avec les lettres I et N à l'interieur.">
+          </a>
+          <a href="https://github.com/Vanithys" target="_blank">
+            <img src="@/assets/github.png" alt="Logo de GitHub, un noir avec un chat à l'intérieur">
+          </a>
       </nav>
-    </div>
-  </header>
 
-  <RouterView />
+        <small class="last-updated">Dernière mise à jour : Le 16 Octobre 2024</small>
+      </aside>
+    </footer>
+  </div>
 </template>
 
+<script>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+import HeaderSection from './components/HeaderSection.vue';
+import QuoteSection from './components/QuoteSection.vue';
+import FormationSection from './components/FormationSection.vue';
+import ProjectSection from './components/ProjectSection.vue';
+import ContactSection from './components/ContactSection.vue';
+
+export default {
+  name: 'App',
+  components: {
+    HeaderSection,
+    QuoteSection,
+    FormationSection,
+    ProjectSection,
+    ContactSection,
+  },
+  setup() {
+    const route = useRoute();
+    const isNotFoundPage = computed(() => route.name === 'NotFound');
+    
+    return {
+      isNotFoundPage,
+    };
+  },
+};
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+
+html, body {
+  overflow-x: hidden;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+#app {
+  overflow-y: scroll;
+  padding-top: 100px;
 }
 
-nav {
-  width: 100%;
-  font-size: 12px;
+html {
+  scroll-behavior: smooth;
+}
+
+.footer {
+  background-color: #333;
+  color: #fff;
   text-align: center;
-  margin-top: 2rem;
+  padding: 20px 0;
+  font-size: 14px;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+.footer .brand-name {
+  font-weight: bold;
+  color: #2fb3ff;
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.footer small {
+  margin: 0;
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+.social-icons {
+  text-align: center;
+  margin-top: 10px;
 }
 
-nav a:first-of-type {
-  border: 0;
+.social-icons a {
+  margin: 0 10px;
+}
+
+.social-icons img {
+  width: 24px;
+  height: 24px;
 }
 
 @media (min-width: 1024px) {
+  section {
+    padding: 40px;
+  }
+
+  .footer {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  section {
+    padding: 30px;
+  }
+
+  .footer {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 767px) {
   header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+    position: static;
+    padding: 10px;
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
+  section {
+    padding: 15px;
   }
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+  .footer {
+    font-size: 13px;
   }
 
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
+  .footer .brand-name {
+    color: #2fb3ff;
   }
 }
 </style>
